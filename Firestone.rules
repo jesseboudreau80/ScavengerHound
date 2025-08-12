@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isHost() {
+      return request.auth != null && request.auth.token.role == 'host';
+    }
+
+    function isAuthed() {
+      return request.auth != null;
+    }
+
+    // Publicly readable game metadata; writes host-only
+    match /games/{gameId} {
+      allow read: if true;
+      allow create, update, delete: if isHost();
+    }
+
+    // Challenges are read-only to players; write by host
+    match /games/{gameId}/challenges/{challengeId} {
+      allow read: if true;
+      allow create, update, delete: if isHost();
+    }
+
+    // Team docs: players can read; writes restricted
+    match /games/{gameId}/teams/{teamId} {
+      allow read: if true;
+      allow create, update, delete: if isHost();
+    }
+
+    // Submissions: players can create their own; hosts can moderate/update status
+    match /games/{gameId}/submissions/{submissionId} {
+      allow read: if true;
+      allow create: if isAuthed();
+      allow update, delete: if isHost();
+    }
+
+    // Leaderboard snapshots (read-only to all)
+    match /games/{gameId}/leaderboard/{docId} {
+      allow read: if true;
+      allow write: if isHost();
+    }
+  }
+}
