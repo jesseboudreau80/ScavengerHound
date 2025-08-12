@@ -1,101 +1,198 @@
 # 🐾 ScavengerHound
 
-Originally built by Nate for CTC — now being extended and reimagined as **ScavengerHound**:  
-A location-based scavenger hunt platform built for dog lovers, community explorers, and creative marketers.
+**Tagline:** A React + Firebase scavenger‑hunt platform for teams, GPS check‑ins, photos, trivia, and automated rewards — built for dog lovers and city explorers.
+
+> Built from a forked foundation and actively evolving toward a hosted SaaS + open template for community hunts.
 
 ---
 
-## 🌟 What Is ScavengerHound?
+## 🚀 Purpose
 
-ScavengerHound is a **web-based, mobile-friendly scavenger hunt platform** with:
-- Game code entry and team formation
-- GPS-aware checkpoints on a dynamic map
-- Multiple check-in types: 📸 photo, 🧠 trivia, 📍 location proximity, 🏷️ social sharing
-- Admin panel for real-time monitoring, point control, and content review
-- Cloud function support for **prizes, email triggers, and vacation reward delivery**
+ScavengerHound helps organizers spin up location‑based scavenger hunts in minutes — from dog‑friendly neighborhood walks to downtown brand activations. Players join with a game code, form teams, complete GPS/photo/trivia challenges, and earn points and rewards.
 
 ---
 
-## 🔥 New Features (Planned or In Progress)
+## 🎯 Core Features
 
-- 🗺️ Google Maps pins with GPS proximity validation
-- 🧠 Trivia engine with bonus rewards (e.g., free next hunt)
-- 🏷️ Social media integration: #ScavengerHound for bonus check-ins
-- 🐕 Pet-friendly themes and customizable city-based hunts
-- 🧾 Business sponsor tiers and QR-based partner promos
-- 🎁 MarketingBoost vacation/gift card integration via Zapier/Firebase
+* Team join + game code rooms
+* GPS proximity check‑ins with map pins
+* Photo uploads + gallery moderation
+* Trivia challenges with scoring + bonuses
+* Real‑time admin dashboard: start/stop game, points control
+* Anonymous auth + rejoin logic
+* Firebase Cloud Functions for automations (emails, rewards)
 
----
+Planned:
 
-## ✨ Current Features (Inherited from Original Repo)
-
-- Dynamic game rooms supporting unlimited players
-- Anonymous user authentication and rejoin logic
-- Real-time updates across teams
-- Image upload and gallery view
-- Admin interface for game control and team review
-- Points system per submission
+* Social boosts (#ScavengerHound) with bonus points
+* Sponsor tiers (QR clues, coupon drops, links)
+* Automated reward delivery (Marketing Boost, Dining, Hotel Savings)
+* City templates and pet‑themed hunts
 
 ---
 
-## 📸 App Screenshots (Original Build)
+## 🧱 Tech Stack
 
-### Start Page – Game Code Entry
-<img src="https://github.com/user-attachments/assets/807aeeab-fd96-4ee4-aad7-4d260afa3cfa" width="200" />
-
-### Team Sorting
-<img src="https://github.com/user-attachments/assets/30e273d3-b77b-4b73-85dc-b98055362ad3" width="200" />
-
-### Game Home Page
-<img src="https://github.com/user-attachments/assets/aad5e0dc-cbf5-4ad5-857f-6ce5f229e29b" width="200" />
-
-### Challenge Check-In Page
-<img src="https://github.com/user-attachments/assets/c706ec95-84a6-480d-9c27-87b1b7659b92" width="200" />
-
-### Admin Game Control
-<img src="https://github.com/user-attachments/assets/cc609396-9985-4940-a5bd-631ea0c6f82a" width="200" />
-
-### Admin Team Review
-<img src="https://github.com/user-attachments/assets/da3b8738-d1e6-4e32-97b6-3447c44d23e8" width="200" />
+* **Frontend:** React + Vite
+* **Backend:** Firebase (Auth, Firestore, Storage, Functions)
+* **Maps/GPS:** Google Maps JavaScript API + Geolocation
+* **CI/CD:** GitHub Actions (planned)
+* **Infra:** Firebase Hosting (starter), Render/Netlify optional
 
 ---
 
-## 🛠️ Getting Started
+## 📦 Quick Start (Local)
 
 ```bash
-# clone this fork
-git clone https://github.com/yourusername/ScavengerHound.git
+# 1) Clone and enter
+git clone https://github.com/jesseboudreau80/ScavengerHound.git
 cd ScavengerHound
 
-# install client dependencies
+# 2) Install deps
 npm install
 
-# run frontend locally
+# 3) Env vars (create .env.local)
+# See ".env.example" for keys
+
+# 4) Run dev server
 npm run dev
+```
 
-# Firebase CLI setup required for backend deploys
-firebase deploy --only functions
+### Required environment variables
 
-🔗 Live Demos & Contact
-Coming soon at: jesseboudreau.com/scavenger-survey
-Learn more about the project, upcoming hunt locations, and join the adventure.
+Create **.env.local** at project root:
 
-Original Author: @theNatePi
-New Direction & Expansion by: @jesseboudreau
-
-💬 Want to sponsor or be featured in a ScavengerHound hunt?
-Contact jesse@jesseboudreau.com or visit jesseboudreau.com
-
-yaml
-Copy
-Edit
+```
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_GOOGLE_MAPS_API_KEY=
+```
 
 ---
 
-Would you like this pushed into a new repo scaffold? I can also add:
-- LICENSE (MIT?)
-- `CONTRIBUTING.md` if you open it up for collaborators
-- Or a `TODO.md` to track phases like:
-  - Google Maps integration
-  - Trivia engine
-  - Marketing Boost reward flow setup
+## ☁️ Deploy (Firebase Hosting + Functions)
+
+```bash
+# Login & init (once)
+npm i -g firebase-tools
+firebase login
+firebase use <your-project-id>
+
+# Deploy hosting only
+firebase deploy --only hosting
+
+# Deploy functions only (Node 20 recommended)
+firebase deploy --only functions
+
+# Or deploy both
+firebase deploy
+```
+
+---
+
+## 🧭 How It Works (Workflow)
+
+```
+Organizer creates game ➜ Adds challenges (GPS, Photo, Trivia)
+             │
+Players join via game code ➜ Form/auto-assign teams
+             │
+Live game: teams complete challenges ➜ Upload photos / answer trivia / move to pins
+             │
+Admin dashboard: approve photos, adjust points, start/stop, monitor map
+             │
+Cloud Functions: send emails, drop coupons, reward winners
+```
+
+---
+
+## 🗺️ Roles
+
+* **Player:** Join, submit, view progress
+* **Moderator:** Review photos, flag content
+* **Admin/Host:** Configure game, manage points, start/stop
+
+---
+
+## 💸 Monetization + Business Model (MVP)
+
+* **Hunt Packs:** Paid city or theme templates (one‑time)
+* **Hosted Events:** Flat fee per event or per team
+* **Sponsor Slots:** QR clues, branded challenges, coupon drops
+* **Rewards Add‑on:** Automated coupon/vacation incentives via Zapier/Functions
+* **White‑Label:** Partner mode for tourism/venues
+
+---
+
+## 🔐 Privacy & Safety (baseline)
+
+* Anonymous player IDs by default
+* Photo moderation queue before public gallery
+* No precise location stored without consent; use hashed/geofenced coords
+* COPPA/child‑safety note for public events; parental consent guidance
+
+---
+
+## 🧪 Roadmap
+
+* [ ] Maps + GPS proximity validation
+* [ ] Challenge builder UX (drag‑drop)
+* [ ] Social proofing: hashtag verification (server‑side later)
+* [ ] Reward pipelines (Marketing Boost / Dining / Hotel Savings)
+* [ ] Multi‑event org dashboard + billing
+* [ ] Analytics (pageviews, completions, heatmaps)
+
+---
+
+## 📁 Repo Structure (high‑level)
+
+```
+public/                 static assets
+src/
+  components/           UI building blocks
+  pages/                routes & screens
+  lib/                  firebase, api, utils
+  features/
+    game/               game state, scoring, team mgmt
+    challenges/         gps, photo, trivia modules
+functions/              Firebase Cloud Functions
+```
+
+---
+
+## 🧑‍💻 Contributing
+
+PRs welcome after initial MVP. Please open an issue first to propose changes. Add tests where possible.
+
+---
+
+## 📜 License
+
+MIT (proposed)
+
+---
+
+## 🙌 Credits
+
+* Original foundation: @theNatePi (scavenger‑hunt)
+* New direction & productization: @jesseboudreau
+
+---
+
+## 📣 Contact & Links
+
+* Project: [https://github.com/jesseboudreau80/ScavengerHound](https://github.com/jesseboudreau80/ScavengerHound)
+* Updates & demos: [https://jesseboudreau.com](https://jesseboudreau.com)
+* Email: [jesse@jesseboudreau.com](mailto:jesse@jesseboudreau.com)
+
+---
+
+### Appendix: Sponsor Options (Draft)
+
+* Bronze: One QR clue + coupon link
+* Silver: Two challenges + logo on map
+* Gold: Branded prize + social campaign co‑post
